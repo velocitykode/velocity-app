@@ -10,7 +10,7 @@ func init() {
 			if err := m.CreateTable("jobs", func(t *migrate.TableBuilder) {
 				t.ID()
 				t.String("queue", 255)
-				t.JSON("payload")
+				t.String("payload", 10000)
 				t.Integer("attempts").Default("0")
 				t.String("scheduled_at", 50)
 				t.String("reserved_at", 50).Nullable()
@@ -25,7 +25,7 @@ func init() {
 			return m.CreateTable("failed_jobs", func(t *migrate.TableBuilder) {
 				t.ID()
 				t.String("queue", 255)
-				t.JSON("payload")
+				t.String("payload", 10000)
 				t.String("exception", 10000)
 				t.Timestamps()
 			})
