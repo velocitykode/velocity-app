@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+package-lock.json
+bun.lockb
+bun.lock
+
+# Build
+public/build/
+dist/
+
+# Environment
+.env
+.env.local
+
+# Database
+database/*.sqlite
+database/*.sqlite-shm
+database/*.sqlite-wal
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+/vel
+velocity-*
+!velocity-*.go
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Hot Reload
+tmp/
+.vel/
+
+# Logs
+*.log
+storage/logs/*
+!storage/logs/.gitkeep
