@@ -67,6 +67,8 @@ github.com/velocitykode/velocity v0.8.0 h1:ms8CDw+9fyyeQyPWHh/Xn6pnPaM6tQZ2p3BMK
 github.com/velocitykode/velocity v0.8.0/go.mod h1:lt3B484lyzTB7kdTEA1JrKjDtsPMOqAqvaCXCCrp3H4=
 github.com/velocitykode/velocity v0.9.0 h1:8hfFEq4jaZDtj+3RO8eYBckhBcg8F5MLfXBCRPDBcgQ=
 github.com/velocitykode/velocity v0.9.0/go.mod h1:lt3B484lyzTB7kdTEA1JrKjDtsPMOqAqvaCXCCrp3H4=
+github.com/velocitykode/velocity v0.9.1 h1:YqhMeTfSrUyTvnqsrlve3tqB7eobArDoLMaeNw946hQ=
+github.com/velocitykode/velocity v0.9.1/go.mod h1:lt3B484lyzTB7kdTEA1JrKjDtsPMOqAqvaCXCCrp3H4=
 github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e h1:JVG44RsyaB9T2KIHavMF/ppJZNG9ZpyihvCd0w101no=
 github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e/go.mod h1:RbqR21r5mrJuqunuUZ/Dhy/avygyECGrLceyNeo4LiM=
 github.com/yuin/gopher-lua v1.1.1 h1:kYKnWBjvbNP4XLT3+bPEwAXJx262OhaHDWDVOPjL46M=
