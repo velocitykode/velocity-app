@@ -18,6 +18,7 @@ func init() {
 		}).Use(middleware.Guest)
 
 		// Public routes
+		r.Get("/health", handlers.Health)
 		r.Post("/logout", handlers.AuthLogout)
 
 		// Protected routes (require authentication)
