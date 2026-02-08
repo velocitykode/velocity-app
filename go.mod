@@ -5,7 +5,7 @@ go 1.25.1
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/romsar/gonertia v1.3.5
-	github.com/velocitykode/vel v0.7.28
+	github.com/velocitykode/vel v0.7.29
 	github.com/velocitykode/velocity v0.9.1
 )
 
