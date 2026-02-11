@@ -1,10 +1,27 @@
 package main
 
 import (
+	"log"
+
 	"velocity-app/internal/app"
-	_ "velocity-app/routes"
+	"velocity-app/routes"
+
+	"github.com/velocitykode/velocity"
 )
 
 func main() {
-	app.Run()
+	v, err := velocity.Default()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := app.Bootstrap(v); err != nil {
+		log.Fatal(err)
+	}
+
+	routes.Register(v)
+
+	if err := v.Serve(); err != nil {
+		log.Fatal(err)
+	}
 }
