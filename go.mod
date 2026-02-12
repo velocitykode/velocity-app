@@ -2,15 +2,11 @@ module velocity-app
 
 go 1.25.7
 
-replace github.com/velocitykode/velocity => /Users/ali/code/velocity
-
-replace github.com/velocitykode/vel => /Users/ali/code/vel
-
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/romsar/gonertia v1.3.5
-	github.com/velocitykode/vel v0.8.1
-	github.com/velocitykode/velocity v0.9.9
+	github.com/velocitykode/vel v0.8.17
+	github.com/velocitykode/velocity v0.9.15
 )
 
 require (
