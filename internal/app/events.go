@@ -8,24 +8,32 @@ import (
 	"github.com/velocitykode/velocity/pkg/router"
 )
 
+// listenerFunc adapts a plain function to the events.Listener interface.
+type listenerFunc struct {
+	fn func(event interface{}) error
+}
+
+func (l *listenerFunc) Handle(event interface{}) error { return l.fn(event) }
+func (l *listenerFunc) ShouldQueue() bool              { return false }
+
 // initEvents registers event listeners for framework observability.
 // Customize these listeners to add your own logging, metrics, or tracing.
-func initEvents() {
+func initEvents(logger log.Logger, dispatcher events.Dispatcher) {
 	// Request lifecycle events
-	events.On("request.started", func(e interface{}) error {
+	dispatcher.Listen("request.started", &listenerFunc{fn: func(e interface{}) error {
 		if req, ok := e.(*router.RequestStarted); ok {
-			log.Debug("Request started",
+			logger.Debug("Request started",
 				"request_id", req.RequestID,
 				"method", req.Method,
 				"path", req.Path,
 			)
 		}
 		return nil
-	})
+	}})
 
-	events.On("request.handled", func(e interface{}) error {
+	dispatcher.Listen("request.handled", &listenerFunc{fn: func(e interface{}) error {
 		if req, ok := e.(*router.RequestHandled); ok {
-			log.Info("Request completed",
+			logger.Info("Request completed",
 				"request_id", req.RequestID,
 				"method", req.Method,
 				"path", req.Path,
@@ -34,43 +42,43 @@ func initEvents() {
 			)
 		}
 		return nil
-	})
+	}})
 
-	events.On("request.failed", func(e interface{}) error {
+	dispatcher.Listen("request.failed", &listenerFunc{fn: func(e interface{}) error {
 		if req, ok := e.(*router.RequestFailed); ok {
-			log.Error("Request failed",
+			logger.Error("Request failed",
 				"request_id", req.RequestID,
 				"error", req.Error,
 				"recovered", req.Recovered,
 			)
 		}
 		return nil
-	})
+	}})
 
 	// Database query events
-	events.On("query.executed", func(e interface{}) error {
+	dispatcher.Listen("query.executed", &listenerFunc{fn: func(e interface{}) error {
 		if q, ok := e.(*orm.QueryExecuted); ok {
-			log.Debug("Query executed",
+			logger.Debug("Query executed",
 				"sql", q.SQL,
 				"duration", q.Duration,
 				"rows", q.RowsAffected,
 			)
 		}
 		return nil
-	})
+	}})
 
 	// Cache events
-	events.On("cache.hit", func(e interface{}) error {
+	dispatcher.Listen("cache.hit", &listenerFunc{fn: func(e interface{}) error {
 		if c, ok := e.(*cache.CacheHit); ok {
-			log.Debug("Cache hit", "key", c.Key)
+			logger.Debug("Cache hit", "key", c.Key)
 		}
 		return nil
-	})
+	}})
 
-	events.On("cache.miss", func(e interface{}) error {
+	dispatcher.Listen("cache.miss", &listenerFunc{fn: func(e interface{}) error {
 		if c, ok := e.(*cache.CacheMiss); ok {
-			log.Debug("Cache miss", "key", c.Key)
+			logger.Debug("Cache miss", "key", c.Key)
 		}
 		return nil
-	})
+	}})
 }

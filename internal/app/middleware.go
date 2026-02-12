@@ -3,6 +3,7 @@ package app
 import (
 	"velocity-app/internal/middleware"
 
+	"github.com/velocitykode/velocity"
 	"github.com/velocitykode/velocity/pkg/csrf"
 	"github.com/velocitykode/velocity/pkg/router"
 	"github.com/velocitykode/velocity/pkg/view"
@@ -16,10 +17,10 @@ type MiddlewareStacks struct {
 }
 
 // GetMiddlewareStacks returns configured middleware stacks
-func GetMiddlewareStacks() *MiddlewareStacks {
+func GetMiddlewareStacks(v *velocity.App) *MiddlewareStacks {
 	return &MiddlewareStacks{
 		Global: globalMiddleware(),
-		Web:    webMiddleware(),
+		Web:    webMiddleware(v),
 		API:    apiMiddleware(),
 	}
 }
@@ -40,12 +41,14 @@ func globalMiddleware() []router.MiddlewareFunc {
 
 // webMiddleware returns middleware for browser/web requests (Inertia, HTML)
 // These run only for routes in the "web" group
-func webMiddleware() []router.MiddlewareFunc {
+func webMiddleware(v *velocity.App) []router.MiddlewareFunc {
+	csrfInstance := v.CSRF.(*csrf.CSRF)
+	viewEngine := v.View.(*view.Engine)
 	return []router.MiddlewareFunc{
 		middleware.SessionMiddleware,    // Create session cookie (must be before CSRF)
 		middleware.CSRFTokenMiddleware,  // Set CSRF token in template data
-		csrf.Middleware(), // CSRF protection (validates token)
-		view.Middleware(),               // Inertia middleware - handles X-Inertia headers, version, etc.
+		csrfInstance.RouterMiddleware(), // CSRF protection (validates token)
+		viewEngine.Middleware(),         // Inertia middleware - handles X-Inertia headers, version, etc.
 	}
 }
 

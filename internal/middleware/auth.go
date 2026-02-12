@@ -10,7 +10,7 @@ import (
 // Auth redirects to login if not authenticated
 func Auth(next router.HandlerFunc) router.HandlerFunc {
 	return func(ctx *router.Context) error {
-		if !auth.Check(ctx.Request) {
+		if !auth.FromContext(ctx).Check(ctx.Request) {
 			return ctx.Redirect(http.StatusSeeOther, "/login")
 		}
 		return next(ctx)
@@ -20,7 +20,7 @@ func Auth(next router.HandlerFunc) router.HandlerFunc {
 // Guest redirects to dashboard if already authenticated
 func Guest(next router.HandlerFunc) router.HandlerFunc {
 	return func(ctx *router.Context) error {
-		if auth.Check(ctx.Request) {
+		if auth.FromContext(ctx).Check(ctx.Request) {
 			return ctx.Redirect(http.StatusSeeOther, "/dashboard")
 		}
 		return next(ctx)

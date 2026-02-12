@@ -16,7 +16,7 @@ import (
 
 // Bootstrap configures app-specific services on the Velocity app instance.
 // Core services (crypto, ORM, logger, cache, events) are already initialized
-// by velocity.Default().
+// by velocity.New().
 func Bootstrap(v *velocity.App) error {
 	// 1. Register auth guards (app-specific: session guard with user model)
 	if err := bootstrapAuth(v); err != nil {
@@ -38,20 +38,20 @@ func Bootstrap(v *velocity.App) error {
 	v.Router.Static("public")
 
 	// 6. Register event listeners (app-specific)
-	initEvents()
+	initEvents(v.Log, v.Events)
 
 	return nil
 }
 
 func bootstrapAuth(v *velocity.App) error {
 	sessionConfig := auth.NewSessionConfigFromEnv()
-	provider := auth.NewORMUserProvider(config.GetAuthModel())
+	provider := auth.NewORMUserProvider(v.DB.DB(), config.GetAuthModel(), nil)
 	sessionGuard, err := guards.NewSessionGuard(provider, sessionConfig)
 	if err != nil {
 		return err
 	}
 
-	v.Auth.RegisterGuard(config.GetAuthGuard(), sessionGuard)
+	v.Auth.(*auth.Manager).RegisterGuard(config.GetAuthGuard(), sessionGuard)
 	return nil
 }
 
@@ -68,7 +68,6 @@ func bootstrapCSRF(v *velocity.App) {
 
 	// Replace the default CSRF instance with our configured one
 	v.CSRF = csrf.New(csrfConfig)
-	csrf.SetGlobalCSRF(v.CSRF)
 }
 
 func bootstrapView(v *velocity.App) error {
@@ -85,19 +84,19 @@ func bootstrapView(v *velocity.App) error {
 		return err
 	}
 
-	// Set on the app instance and wire the global
+	// Set on the app instance
 	v.View = engine
-	view.SetGlobalEngine(engine)
 
 	sessionName := os.Getenv("SESSION_NAME")
 	if sessionName == "" {
 		sessionName = "velocity_session"
 	}
 
-	view.SetSharePropsFunc(func(r *http.Request) (view.Props, error) {
+	csrfInstance := v.CSRF.(*csrf.CSRF)
+	engine.SetSharePropsFunc(func(r *http.Request) (view.Props, error) {
 		props := view.Props{}
 		if cookie, err := r.Cookie(sessionName); err == nil {
-			if token, err := csrf.GetGlobalToken(cookie.Value); err == nil && token != "" {
+			if token, err := csrfInstance.GetToken(cookie.Value); err == nil && token != "" {
 				props["csrf_token"] = token
 			}
 		}
@@ -108,7 +107,7 @@ func bootstrapView(v *velocity.App) error {
 }
 
 func bootstrapMiddleware(v *velocity.App) {
-	stacks := GetMiddlewareStacks()
+	stacks := GetMiddlewareStacks(v)
 
 	for _, mw := range stacks.Global {
 		v.Router.Use(mw)

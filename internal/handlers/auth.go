@@ -4,14 +4,13 @@ import (
 	"velocity-app/internal/models"
 
 	"github.com/velocitykode/velocity/pkg/auth"
-	"github.com/velocitykode/velocity/pkg/log"
 	"github.com/velocitykode/velocity/pkg/router"
 	"github.com/velocitykode/velocity/pkg/view"
 )
 
 // AuthShowLoginForm displays the login page
 func AuthShowLoginForm(ctx *router.Context) error {
-	view.Render(ctx.Response, ctx.Request, "Auth/Login", view.Props{})
+	view.FromContext(ctx).Render(ctx.Response, ctx.Request, "Auth/Login", view.Props{})
 	return nil
 }
 
@@ -35,9 +34,10 @@ func AuthLogin(ctx *router.Context) error {
 		"password": formData.Password,
 	}
 
-	success, _ := auth.Attempt(ctx.Response, ctx.Request, credentials, formData.Remember)
+	authManager := auth.FromContext(ctx)
+	success, _ := authManager.Attempt(ctx.Response, ctx.Request, credentials, formData.Remember)
 	if !success {
-		view.Render(ctx.Response, ctx.Request, "Auth/Login", view.Props{
+		view.FromContext(ctx).Render(ctx.Response, ctx.Request, "Auth/Login", view.Props{
 			"errors": map[string]string{
 				"email": "These credentials do not match our records.",
 			},
@@ -48,20 +48,20 @@ func AuthLogin(ctx *router.Context) error {
 		return nil
 	}
 
-	view.Redirect(ctx.Response, ctx.Request, "/dashboard")
+	view.FromContext(ctx).Redirect(ctx.Response, ctx.Request, "/dashboard")
 	return nil
 }
 
 // AuthLogout handles the logout request
 func AuthLogout(ctx *router.Context) error {
-	auth.Logout(ctx.Response, ctx.Request)
-	view.Redirect(ctx.Response, ctx.Request, "/login")
+	auth.FromContext(ctx).Logout(ctx.Response, ctx.Request)
+	view.FromContext(ctx).Redirect(ctx.Response, ctx.Request, "/login")
 	return nil
 }
 
 // AuthShowRegisterForm displays the registration page
 func AuthShowRegisterForm(ctx *router.Context) error {
-	view.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{})
+	view.FromContext(ctx).Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{})
 	return nil
 }
 
@@ -94,8 +94,10 @@ func AuthRegister(ctx *router.Context) error {
 		errors["password"] = "Password is required."
 	}
 
+	viewEngine := view.FromContext(ctx)
+
 	if len(errors) > 0 {
-		view.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
+		viewEngine.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
 			"errors": errors,
 			"old": map[string]string{
 				"name":  formData.Name,
@@ -107,7 +109,7 @@ func AuthRegister(ctx *router.Context) error {
 
 	// Validate passwords match
 	if formData.Password != formData.PasswordConfirmation {
-		view.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
+		viewEngine.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
 			"errors": map[string]string{
 				"password": "The password confirmation does not match.",
 			},
@@ -119,10 +121,12 @@ func AuthRegister(ctx *router.Context) error {
 		return nil
 	}
 
+	authManager := auth.FromContext(ctx)
+
 	// Hash password
-	hashedPassword, err := auth.Hash(formData.Password)
+	hashedPassword, err := authManager.Hash(formData.Password)
 	if err != nil {
-		view.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
+		viewEngine.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
 			"errors": map[string]string{
 				"password": "Failed to process password.",
 			},
@@ -133,7 +137,7 @@ func AuthRegister(ctx *router.Context) error {
 	// Check if user already exists
 	existingUser, _ := models.User{}.FindBy("email", formData.Email)
 	if existingUser != nil {
-		view.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
+		viewEngine.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
 			"errors": map[string]string{
 				"email": "A user with this email already exists.",
 			},
@@ -152,8 +156,8 @@ func AuthRegister(ctx *router.Context) error {
 		"password": hashedPassword,
 	})
 	if err != nil {
-		log.Error("Failed to create user", "error", err)
-		view.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
+		ctx.Log().Error("Failed to create user", "error", err)
+		viewEngine.Render(ctx.Response, ctx.Request, "Auth/Register", view.Props{
 			"errors": map[string]string{
 				"email": "Failed to create account. Please try again.",
 			},
@@ -161,7 +165,7 @@ func AuthRegister(ctx *router.Context) error {
 		return nil
 	}
 
-	log.Info("User created successfully", "email", user.Email, "id", user.ID)
+	ctx.Log().Info("User created successfully", "email", user.Email, "id", user.ID)
 
 	// Auto-login the new user
 	credentials := map[string]interface{}{
@@ -169,11 +173,11 @@ func AuthRegister(ctx *router.Context) error {
 		"password": formData.Password,
 	}
 
-	success, _ := auth.Attempt(ctx.Response, ctx.Request, credentials, false)
+	success, _ := authManager.Attempt(ctx.Response, ctx.Request, credentials, false)
 	if success {
-		view.Redirect(ctx.Response, ctx.Request, "/dashboard")
+		viewEngine.Redirect(ctx.Response, ctx.Request, "/dashboard")
 	} else {
-		view.Redirect(ctx.Response, ctx.Request, "/login")
+		viewEngine.Redirect(ctx.Response, ctx.Request, "/login")
 	}
 	return nil
 }

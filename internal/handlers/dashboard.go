@@ -8,7 +8,7 @@ import (
 
 // Dashboard displays the dashboard
 func Dashboard(ctx *router.Context) error {
-	user := auth.User(ctx.Request)
+	user := auth.FromContext(ctx).User(ctx.Request)
 
 	// Convert user to map for props
 	userMap := make(map[string]interface{})
@@ -18,7 +18,7 @@ func Dashboard(ctx *router.Context) error {
 		userMap["email"] = authUser.Email
 	}
 
-	view.Render(ctx.Response, ctx.Request, "Dashboard", view.Props{
+	view.FromContext(ctx).Render(ctx.Response, ctx.Request, "Dashboard", view.Props{
 		"auth": map[string]interface{}{
 			"user": userMap,
 		},
