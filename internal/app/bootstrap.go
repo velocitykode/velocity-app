@@ -46,7 +46,7 @@ func Bootstrap(v *velocity.App) error {
 func bootstrapAuth(v *velocity.App) error {
 	sessionConfig := auth.NewSessionConfigFromEnv()
 	provider := auth.NewORMUserProvider(v.DB.DB(), config.GetAuthModel(), nil)
-	sessionGuard, err := guards.NewSessionGuard(provider, sessionConfig)
+	sessionGuard, err := guards.NewSessionGuard(provider, sessionConfig, v.Crypto)
 	if err != nil {
 		return err
 	}
