@@ -1,6 +1,6 @@
 package config
 
-import "github.com/velocitykode/velocity/pkg/config"
+import "github.com/velocitykode/velocity/config"
 
 // GetViewTemplate returns the view template path (read at call time)
 func GetViewTemplate() string {

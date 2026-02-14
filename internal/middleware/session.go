@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // SessionMiddleware ensures a session cookie exists for every request.

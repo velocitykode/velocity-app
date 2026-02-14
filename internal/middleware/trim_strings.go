@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // TrimStringsMiddleware trims whitespace from string inputs in form and JSON data

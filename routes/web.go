@@ -5,7 +5,7 @@ import (
 	"velocity-app/internal/middleware"
 
 	"github.com/velocitykode/velocity"
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // Register registers all application routes on the app's router.

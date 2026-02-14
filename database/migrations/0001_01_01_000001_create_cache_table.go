@@ -1,6 +1,6 @@
 package migrations
 
-import "github.com/velocitykode/velocity/pkg/orm/migrate"
+import "github.com/velocitykode/velocity/orm/migrate"
 
 func init() {
 	migrate.Register(&migrate.Migration{

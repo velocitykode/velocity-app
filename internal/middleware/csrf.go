@@ -4,8 +4,8 @@ import (
 	"os"
 
 	"github.com/romsar/gonertia"
-	"github.com/velocitykode/velocity/pkg/csrf"
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/csrf"
+	"github.com/velocitykode/velocity/router"
 )
 
 // CSRFTokenMiddleware sets the CSRF token in the template data for the meta tag.

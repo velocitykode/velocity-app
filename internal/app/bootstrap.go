@@ -7,11 +7,11 @@ import (
 	"velocity-app/config"
 
 	"github.com/velocitykode/velocity"
-	"github.com/velocitykode/velocity/pkg/auth"
-	"github.com/velocitykode/velocity/pkg/auth/drivers/guards"
-	"github.com/velocitykode/velocity/pkg/csrf"
-	"github.com/velocitykode/velocity/pkg/csrf/stores"
-	"github.com/velocitykode/velocity/pkg/view"
+	"github.com/velocitykode/velocity/auth"
+	"github.com/velocitykode/velocity/auth/drivers/guards"
+	"github.com/velocitykode/velocity/csrf"
+	"github.com/velocitykode/velocity/csrf/stores"
+	"github.com/velocitykode/velocity/view"
 )
 
 // Bootstrap configures app-specific services on the Velocity app instance.

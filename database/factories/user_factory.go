@@ -1,8 +1,8 @@
 package factories
 
 import (
-	"github.com/velocitykode/velocity/pkg/orm"
-	ormtesting "github.com/velocitykode/velocity/pkg/orm/testing"
+	"github.com/velocitykode/velocity/orm"
+	ormtesting "github.com/velocitykode/velocity/orm/testing"
 )
 
 // UserFactory creates test users

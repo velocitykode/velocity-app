@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // ConvertEmptyStringsToNullMiddleware converts empty strings to nil in request data

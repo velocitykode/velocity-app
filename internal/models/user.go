@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/velocitykode/velocity/pkg/orm"
+	"github.com/velocitykode/velocity/orm"
 )
 
 // User model represents a user in the application

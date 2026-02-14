@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // CORSMiddleware handles CORS preflight and headers

@@ -1,6 +1,6 @@
 package config
 
-import "github.com/velocitykode/velocity/pkg/config"
+import "github.com/velocitykode/velocity/config"
 
 // GetCryptoKey returns the crypto key (read at call time, not init time)
 func GetCryptoKey() string {

@@ -1,6 +1,6 @@
 package config
 
-import "github.com/velocitykode/velocity/pkg/config"
+import "github.com/velocitykode/velocity/config"
 
 // GetAppName returns the app name (read at call time)
 func GetAppName() string {

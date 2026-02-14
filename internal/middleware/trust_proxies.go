@@ -3,7 +3,7 @@ package middleware
 import (
 	"strings"
 
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // TrustProxiesMiddleware handles X-Forwarded-* headers from trusted proxies

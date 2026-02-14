@@ -3,8 +3,8 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/velocitykode/velocity/pkg/auth"
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/auth"
+	"github.com/velocitykode/velocity/router"
 )
 
 // Auth redirects to login if not authenticated

@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // EnsureJSONMiddleware ensures responses are JSON formatted for API routes

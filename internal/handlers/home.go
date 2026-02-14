@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"github.com/velocitykode/velocity/pkg/router"
-	"github.com/velocitykode/velocity/pkg/view"
+	"github.com/velocitykode/velocity/router"
+	"github.com/velocitykode/velocity/view"
 )
 
 func Home(ctx *router.Context) error {

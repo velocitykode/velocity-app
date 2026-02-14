@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 func LoggingMiddleware(next router.HandlerFunc) router.HandlerFunc {

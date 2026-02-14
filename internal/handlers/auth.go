@@ -3,9 +3,9 @@ package handlers
 import (
 	"velocity-app/internal/models"
 
-	"github.com/velocitykode/velocity/pkg/auth"
-	"github.com/velocitykode/velocity/pkg/router"
-	"github.com/velocitykode/velocity/pkg/view"
+	"github.com/velocitykode/velocity/auth"
+	"github.com/velocitykode/velocity/router"
+	"github.com/velocitykode/velocity/view"
 )
 
 // AuthShowLoginForm displays the login page

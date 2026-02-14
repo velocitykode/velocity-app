@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // ValidatePostSizeMiddleware rejects requests exceeding max body size

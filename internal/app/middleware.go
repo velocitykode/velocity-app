@@ -4,9 +4,9 @@ import (
 	"velocity-app/internal/middleware"
 
 	"github.com/velocitykode/velocity"
-	"github.com/velocitykode/velocity/pkg/csrf"
-	"github.com/velocitykode/velocity/pkg/router"
-	"github.com/velocitykode/velocity/pkg/view"
+	"github.com/velocitykode/velocity/csrf"
+	"github.com/velocitykode/velocity/router"
+	"github.com/velocitykode/velocity/view"
 )
 
 // MiddlewareStacks defines all middleware stacks for the application

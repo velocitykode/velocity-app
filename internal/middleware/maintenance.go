@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/velocitykode/velocity/pkg/router"
+	"github.com/velocitykode/velocity/router"
 )
 
 // PreventRequestsDuringMaintenanceMiddleware returns 503 when app is in maintenance mode

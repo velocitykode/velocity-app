@@ -1,6 +1,6 @@
 package config
 
-import "github.com/velocitykode/velocity/pkg/config"
+import "github.com/velocitykode/velocity/config"
 
 // GetAuthGuard returns the auth guard (read at call time)
 func GetAuthGuard() string {
